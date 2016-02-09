@@ -5,8 +5,21 @@
 
 (def system)
 
-(defn initialize [source]
-  (u/initialize (io/load-config source)))
+(defn initialize
+  "takes 'sources' where sources can be:
+
+     directories (will read all .edn files in the directory as config maps)
+      --   Note that this does NOT read .clj files in a directory source
+
+     files (containing edn maps)
+
+     strings (each to be read as edn map)
+
+     clojure maps (returned as-is)
+
+  returns a com.stuartsierra.component/SystemMap"
+  [& sources]
+  (u/initialize (reduce merge (map io/load-config sources))))
 
 (defn stop [system]
   (component/stop-system (dissoc system :shutdown-hook)))

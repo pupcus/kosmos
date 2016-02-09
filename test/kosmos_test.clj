@@ -29,6 +29,11 @@
    :three {:kosmos/init kosmos-test/init-component-three
            :status :not-started}})
 
+(deftest test-initialize
+  (is (= (component/map->SystemMap {:component {:option1 :one}})
+         (initialize "test/config/test/one.edn"
+                     "test/config/test/three.edn"))))
+
 (deftest test-system-start-and-stop
   (start! (initialize test-config))
 
