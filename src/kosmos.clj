@@ -6,16 +6,16 @@
 (def system)
 
 (defn initialize
-  "takes 'sources' where sources can be:
+  "takes 'sources' where sources are strings defining:
 
      directories (will read all .edn files in the directory as config maps)
       --   Note that this does NOT read .clj files in a directory source
 
      files (containing edn maps)
 
-     strings (each to be read as edn map)
+     strings (each to be read as an edn map)
 
-     clojure maps (returned as-is)
+  sources can also be clojure maps (used as-is)
 
   returns a com.stuartsierra.component/SystemMap"
   [& sources]
