@@ -5,9 +5,8 @@
 
 (def system)
 
-(defn initialize
-  ([edn-or-string-or-file] (u/initialize (io/load-config edn-or-string-or-file)))
-  ([base-directory env]    (u/initialize (io/load-config base-directory env))))
+(defn initialize [source]
+  (u/initialize (io/load-config source)))
 
 (defn stop [system]
   (component/stop-system (dissoc system :shutdown-hook)))

@@ -24,12 +24,12 @@
     x)
    {:arg x}))
 
-(defn invalid-config-source [args]
+(defn invalid-config-source [source]
   (ex-info
    (format
-    "Expecting a base directory and environment name, a file, or a string to load but found %s"
-    args)
-   {:args args}))
+    "Expecting a directory, a file, a string, or an edn map to load but found %s"
+    source)
+   {:source source}))
 
 (defn invalid-thread [t]
   (ex-info

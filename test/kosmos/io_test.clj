@@ -3,18 +3,15 @@
             [clojure.test :refer :all]))
 
 (deftest test-config-files
-  (is (= (mapv #(.getPath ^java.io.File %) (config-files "test/config" "test"))
+  (is (= (mapv #(.getPath ^java.io.File %) (config-files "test/config/test"))
          ["test/config/test/one.edn" "test/config/test/three.edn"])))
 
 (deftest test-config-files-directory-does-not-exist
-  (is (thrown? clojure.lang.ExceptionInfo (config-files "test/config" "no-environment"))))
-
-(deftest test-config-files-not-a-directory
-  (is (thrown? clojure.lang.ExceptionInfo (config-files "test/config/test" "two.txt"))))
+  (is (thrown? clojure.lang.ExceptionInfo (config-files "test/config/doesnotexist"))))
 
 (deftest test-load-config
   (is (= {:component {:option1 :one}}
-         (load-config "test/config" "test")))
+         (load-config "test/config/test")))
   (is (= {:component {:option1 :one}}
          (load-config "test/config/test/one.edn")))
   (is (= {:component {:option1 :one}}

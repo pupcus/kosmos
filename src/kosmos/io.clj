@@ -5,10 +5,8 @@
             [kosmos.util :as u]
             [kosmos.error :as err]))
 
-(defn config-files
-  "Given a base-directory location and an environment name, find all files ending in .edn"
-  [base-directory env]
-  (let [dir (io/as-file (u/mkpath base-directory (name env)))]
+(defn config-files [d]
+  (let [dir (io/as-file d)]
     (if-not (u/valid-directory? dir)
       (throw (err/file-not-found dir))
       (filterv #(re-find #"\.edn$" (.getName ^java.io.File %)) (vec (.listFiles dir))))))
@@ -16,22 +14,21 @@
 (def ^:private read-string
   (partial edn/read-string {}))
 
-(defn load-dispatch-fn [& args]
-  (when-let [arg1 (first args)]
-    (if (map? arg1)
-      :edn
-      (if (string? arg1)
-        (let [target (io/as-file arg1)]
-          (cond
-            (.isDirectory target) :directory
-            (.isFile target)      :file
-            :otherwise            :string))
-        (throw (err/invalid-config-source args))))))
+(defn load-dispatch-fn [source]
+  (if (map? source)
+    :edn
+    (if (string? source)
+      (let [target (io/as-file source)]
+        (cond
+          (.isDirectory target) :directory
+          (.isFile target)      :file
+          :otherwise            :string))
+      (throw (err/invalid-config-source source)))))
 
 (defmulti load-config #'load-dispatch-fn)
 
-(defmethod load-config :directory [base-dir env] {:post [(map? %)]}
-  (->> (config-files base-dir env)
+(defmethod load-config :directory [d] {:post [(map? %)]}
+  (->> (config-files d)
        (map (comp read-string slurp))
        (apply merge)))
 
