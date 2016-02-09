@@ -2,12 +2,11 @@
   (:refer-clojure :exclude [read-string])
   (:require [clojure.java.io :as io]
             [clojure.tools.reader.edn :as edn]
-            [kosmos.util :as u]
             [kosmos.error :as err]))
 
 (defn config-files [d]
   (let [dir (io/as-file d)]
-    (if-not (u/valid-directory? dir)
+    (if-not (.isDirectory dir)
       (throw (err/file-not-found dir))
       (filterv #(re-find #"\.edn$" (.getName ^java.io.File %)) (vec (.listFiles dir))))))
 

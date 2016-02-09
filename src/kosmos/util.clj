@@ -3,12 +3,6 @@
             [com.stuartsierra.component :as component]
             [kosmos.error :as err]))
 
-(defn mkpath [& args]
-  (str/join java.io.File/separator args))
-
-(defn valid-directory? [^java.io.File d]
-  (and (.exists d) (.isDirectory d)))
-
 (defn- expect-thread [t]
   (when-not (instance? Thread t)
     (throw (err/invalid-thread t))))
