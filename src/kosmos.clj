@@ -21,8 +21,13 @@
   [& sources]
   (u/initialize (reduce merge (map io/load-config sources))))
 
+(defn- get-system-map [system]
+  (if (instance? clojure.lang.Var system)
+    @system
+    system))
+
 (defn stop [system]
-  (component/stop-system (dissoc system :shutdown-hook)))
+  (component/stop-system (dissoc (get-system-map system) :shutdown-hook)))
 
 (defn- shutdown-hook [system]
   (Thread.
