@@ -1,5 +1,6 @@
 (ns kosmos
-  (:require [com.stuartsierra.component :as component]
+  (:require [clojure.tools.logging :as log]
+            [com.stuartsierra.component :as component]
             [kosmos.io :as io]
             [kosmos.util :as u]))
 
@@ -22,12 +23,20 @@
   (u/initialize (reduce merge (map io/load-config sources))))
 
 (defn- get-system-map [system]
-  (if (instance? clojure.lang.Var system)
+  (if (var? system)
     @system
     system))
 
 (defn stop [system]
+  (log/debug "Stopping all components ...")
   (component/stop-system (dissoc (get-system-map system) :shutdown-hook)))
+
+(defn exit [system status-code]
+  (log/debug "Shutting down system ...")
+  (when system
+    (stop system))
+  (shutdown-agents)
+  (System/exit (or status-code 0)))
 
 (defn- shutdown-hook [system]
   (Thread.
@@ -40,20 +49,9 @@
     h))
 
 (defn start [system-map]
-  (let [system (component/start-system system-map)]
+  (log/debug "Starting all components ...")
+   (let [system (component/start-system system-map)]
     (assoc system :shutdown-hook (system-shutdown-hook system))))
-
-(defn exit [system status-code]
-  (when system
-    (stop system))
-  (shutdown-agents)
-  (System/exit (or status-code 0)))
-
-(defn start! [system-map]
-  (let [started-system (start system-map)]
-    (u/remove-shutdown-hook (:shutdown-hook started-system))
-    (alter-var-root #'system (fn [_]
-                               (assoc started-system :shutdown-hook (system-shutdown-hook #'system))))))
 
 (defn stop! []
   (u/remove-shutdown-hook (:shutdown-hook system))
@@ -63,3 +61,9 @@
   (u/remove-shutdown-hook (:shutdown-hook system))
   (alter-var-root #'system stop)
   (exit nil status-code))
+
+(defn start! [system-map]
+  (let [started-system (start system-map)]
+    (u/remove-shutdown-hook (:shutdown-hook started-system))
+    (alter-var-root #'system (fn [_]
+                               (assoc started-system :shutdown-hook (system-shutdown-hook #'system))))))

@@ -12,8 +12,9 @@
   (.addShutdownHook (Runtime/getRuntime) h))
 
 (defn remove-shutdown-hook [h]
-  (when-let [runtime (Runtime/getRuntime)]
-    (.removeShutdownHook runtime h)))
+  (when h
+    (when-let [runtime (Runtime/getRuntime)]
+      (.removeShutdownHook runtime h))))
 
 (defn resolve-symbol [x]
   (if (instance? clojure.lang.Named x)

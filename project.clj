@@ -2,21 +2,26 @@
 
   :description "create an ordered system of components"
 
-  :url "https://bitbucket.org/mdpendergrass/kosmos"
+  :url "https://bitbucket.org/pupcus/kosmos"
 
-  :scm {:url "git@bitbucket.org:mdpendergrass/kosmos"}
+  :scm {:url "git@bitbucket.org:pupcus/kosmos"}
 
   :license {:name "Eclipse Public License"
             :url "http://www.eclipse.org/legal/epl-v10.html"}
 
-  :dependencies [[org.clojure/clojure "1.7.0"]
-                 [org.clojure/tools.reader "0.10.0"]
+  :dependencies [[org.clojure/tools.reader "0.10.0"]
+                 [org.clojure/tools.logging "0.3.1"]
                  [com.stuartsierra/component "0.3.1"]]
 
-  :repositories [["snapshots" {:url "http://maven.pupcus.org/archiva/repository/snapshots"
-                               :creds :gpg}]
-                 ["releases"  {:url "http://maven.pupcus.org/archiva/repository/internal"
-                               :creds :gpg}]]
+  :profiles {:dev  {:resource-paths ["dev-resources"]
+                    :dependencies [[org.clojure/clojure "1.8.0"]
+                                   [org.slf4j/slf4j-log4j12 "1.7.5"]]}}
+
+  ;; TODO: working to open-source these kosmos/kosmos-* libs soon and will need to change this
+  ;; :repositories [["snapshots" {:url "http://maven.pupcus.org/archiva/repository/snapshots"
+  ;;                              :creds false}]
+  ;;                ["releases"  {:url "http://maven.pupcus.org/archiva/repository/internal"
+  ;;                              :creds false}]]
 
   :global-vars {*warn-on-reflection* true
                 *assert* false})
