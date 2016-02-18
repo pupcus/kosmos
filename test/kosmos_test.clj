@@ -3,7 +3,6 @@
             [clojure.test :refer :all]
             [com.stuartsierra.component :as component]))
 
-
 (defrecord TestComponent [status]
 
   component/Lifecycle
@@ -22,9 +21,9 @@
 
 
 (def test-config
-  {:one   {:kosmos/type :kosmos-test/TestComponent
+  {:one   {:kosmos/init :kosmos-test/TestComponent
            :status :not-started}
-   :two   {:kosmos/type :kosmos-test/TestComponent
+   :two   {:kosmos/init :kosmos-test/TestComponent
            :status :not-started}
    :three {:kosmos/init kosmos-test/init-component-three
            :status :not-started}})

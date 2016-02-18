@@ -23,9 +23,7 @@
   (u/initialize (reduce merge (map io/load-config sources))))
 
 (defn- get-system-map [system]
-  (if (var? system)
-    @system
-    system))
+  (u/get-sym system))
 
 (defn stop [system]
   (log/debug "Stopping all components ...")
