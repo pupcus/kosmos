@@ -31,8 +31,7 @@
 
 (deftest test-initialize
   (is (= (component/map->SystemMap {:component {:option1 :one}})
-         (initialize "test/config/test/one.edn"
-                     "test/config/test/three.edn"))))
+         (initialize {:component {:option1 :one}}))))
 
 (deftest test-system-start-and-stop
   (start! (initialize test-config))
