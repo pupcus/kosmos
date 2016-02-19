@@ -13,7 +13,4 @@ reference the assembled components and dependencies at runtime.
 
 ## License
 
-Copyright © 2015 pupcus.org
-
-Distributed under the Eclipse Public License either version 1.0 or (at
-your option) any later version.
+Kosmos is distributed under the [Eclipse Public License](http://opensource.org/licenses/eclipse-1.0.php), the same as Clojure.
