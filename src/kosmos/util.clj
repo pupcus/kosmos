@@ -31,7 +31,7 @@
 
 (defn- create-component [config]
   (if-let [init-fn (:kosmos/init config)]
-    ((resolve-symbol init-fn) config)
+    (init-fn config)
     config))
 
 (defn- create-components [m]
@@ -54,20 +54,23 @@
 
 (defn- init? [type]
   (try
-    (fn? (get-sym (resolve-symbol type)))
+    (let [sym (resolve-symbol type)]
+      (when (fn? (get-sym sym))
+        sym))
     (catch Exception e)))
 
 (defn- type? [type]
   (try
-    (fn? (get-sym (resolve-symbol (type-constructor type))))
+    (let [sym (resolve-symbol (type-constructor type))]
+      (when (fn? (get-sym sym))
+        sym))
     (catch Exception e)))
 
 (defn- build-initialization-symbol [component-config]
   (when-let [init (:kosmos/init component-config)]
-    (cond
-      (init? init)  init
-      (type? init)  (type-constructor init)
-      :otherwise    (throw (err/invalid-initialization init)))))
+    (or (init? init)
+        (type? init)
+        (throw (err/invalid-initialization init)))))
 
 (defn- process-component-config
   [component-config]
