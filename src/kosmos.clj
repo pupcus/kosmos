@@ -9,9 +9,7 @@
   (u/map->system system-config))
 
 (defn- get-system-map [system]
-  (if (var? system)
-    @system
-    system))
+  (u/get-sym system))
 
 (defn stop [system]
   (log/debug "Stopping all components ...")

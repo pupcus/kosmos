@@ -3,6 +3,11 @@
             [com.stuartsierra.component :as component]
             [kosmos.error :as err]))
 
+(defn get-sym [s]
+  (if (var? s)
+    @s
+    s))
+
 (defn- expect-thread [t]
   (when-not (instance? Thread t)
     (throw (err/invalid-thread t))))
@@ -26,7 +31,7 @@
 
 (defn- create-component [config]
   (if-let [init-fn (:kosmos/init config)]
-    ((resolve-symbol init-fn) config)
+    (init-fn config)
     config))
 
 (defn- create-components [m]
@@ -44,16 +49,33 @@
        s))
    {} m))
 
+(defn- type-constructor [type]
+  (symbol (str (namespace type) "/" (str "map->" (name type)))))
+
+(defn- init? [type]
+  (try
+    (let [sym (resolve-symbol type)]
+      (when (fn? (get-sym sym))
+        sym))
+    (catch Exception e)))
+
+(defn- type? [type]
+  (try
+    (let [sym (resolve-symbol (type-constructor type))]
+      (when (fn? (get-sym sym))
+        sym))
+    (catch Exception e)))
+
 (defn- build-initialization-symbol [component-config]
-  (when-let [type (:kosmos/type component-config)]
-    (symbol (str (namespace type) "/" (str "map->" (name type))))))
+  (when-let [init (:kosmos/init component-config)]
+    (or (init? init)
+        (type? init)
+        (throw (err/invalid-initialization init)))))
 
 (defn- process-component-config
   [component-config]
   (if-let [init (build-initialization-symbol component-config)]
-    (-> component-config
-        (dissoc :kosmos/type)
-        (assoc :kosmos/init init))
+    (assoc component-config :kosmos/init init)
     component-config))
 
 (defn- process-system-config [system-config]

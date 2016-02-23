@@ -38,3 +38,9 @@
     (class t))
    {:arg t}))
 
+(defn invalid-initialization [type]
+  (ex-info
+   (format
+    "Expecting a fn or a type to initialize component"
+    type)
+   {:type type}))
