@@ -17,11 +17,12 @@
                     :dependencies [[org.clojure/clojure "1.8.0"]
                                    [org.slf4j/slf4j-log4j12 "1.7.5"]]}}
 
-  ;; TODO: working to open-source these kosmos/kosmos-* libs soon and will need to change this
-  ;; :repositories [["snapshots" {:url "http://maven.pupcus.org/archiva/repository/snapshots"
-  ;;                              :creds false}]
-  ;;                ["releases"  {:url "http://maven.pupcus.org/archiva/repository/internal"
-  ;;                              :creds false}]]
+  :deploy-repositories [["snapshots"
+                         {:url "https://clojars.org/repo"
+                          :creds :gpg}]
+                        ["releases"
+                         {:url "https://clojars.org/repo"
+                          :creds :gpg}]]
 
   :global-vars {*warn-on-reflection* true
                 *assert* false})
