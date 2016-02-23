@@ -13,6 +13,7 @@
 
 (defn stop [system]
   (log/debug "Stopping all components ...")
+  (u/remove-shutdown-hook (:shutdown-hook system))
   (component/stop-system (dissoc (get-system-map system) :shutdown-hook)))
 
 (defn exit [system status-code]
@@ -38,11 +39,9 @@
     (assoc system :shutdown-hook (system-shutdown-hook system))))
 
 (defn stop! []
-  (u/remove-shutdown-hook (:shutdown-hook system))
   (alter-var-root #'system stop))
 
 (defn exit! [status-code]
-  (u/remove-shutdown-hook (:shutdown-hook system))
   (alter-var-root #'system stop)
   (exit nil status-code))
 
