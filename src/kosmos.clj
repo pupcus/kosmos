@@ -5,8 +5,8 @@
 
 (def system)
 
-(defn initialize [system-config]
-  (u/initialize system-config))
+(defn map->system [system-config]
+  (u/map->system system-config))
 
 (defn- get-system-map [system]
   (if (var? system)
