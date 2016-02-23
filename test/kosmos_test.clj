@@ -31,11 +31,10 @@
 
 (deftest test-initialize
   (is (= (component/map->SystemMap {:component {:option1 :one}})
-         (initialize "test/config/test/one.edn"
-                     "test/config/test/three.edn"))))
+         (map->system {:component {:option1 :one}}))))
 
 (deftest test-system-start-and-stop
-  (start! (initialize test-config))
+  (start! (map->system test-config))
 
   (let [c1 (:one   kosmos/system)
         c2 (:two   kosmos/system)
