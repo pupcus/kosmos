@@ -1,4 +1,4 @@
-(defproject kosmos "0.0.3"
+(defproject kosmos "0.0.4-SNAPSHOT"
 
   :description "create an ordered system of components"
 
