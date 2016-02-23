@@ -64,7 +64,6 @@
    system-config))
 
 (defn map->system [system-config]
-  (remove-method clojure.core/print-method com.stuartsierra.component.SystemMap)
   (let [initialized-system (->> (process-system-config system-config)
                                 create-components
                                 component/map->SystemMap)]
