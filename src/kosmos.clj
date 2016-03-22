@@ -42,7 +42,7 @@
   (alter-var-root #'system stop))
 
 (defn exit! [status-code]
-  (alter-var-root #'system stop)
+  (stop!)
   (exit nil status-code))
 
 (defn start! [system-map]
