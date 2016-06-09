@@ -66,22 +66,33 @@
         sym))
     (catch Exception e)))
 
-(defn- build-initialization-symbol [component-config]
-  (when-let [init (:kosmos/init component-config)]
-    (or (init? init)
-        (type? init)
-        (throw (err/invalid-initialization init)))))
+(defrecord InitFnComponent []
+  component/Lifecycle
+  (start [{init-fn :kosmos/init-fn :as component}]
+    (if-let [init-fn (resolve-symbol init-fn)]
+      (init-fn component)
+      (throw
+       (ex-info
+        "kosmos/init required but cannot be resolved!"
+        {:init-fn (:kosmos/init-fn component)}))))
+  (stop [_]))
 
-(defn- process-component-config
-  [component-config]
-  (if-let [init (build-initialization-symbol component-config)]
-    (assoc component-config :kosmos/init init)
+(defn- build-initializable-component [component-config]
+  (if-let [init (:kosmos/init component-config)]
+    (cond
+      (init? init)   (assoc component-config
+                           :kosmos/init map->InitFnComponent
+                           :kosmos/init-fn (init? init))
+      (type? init)   (assoc component-config
+                            :kosmos/init (type? init))
+      :otherwise     (throw (err/invalid-initialization init)))
+
     component-config))
 
 (defn- process-system-config [system-config]
   (reduce-kv
    (fn [m k v]
-     (assoc m k (process-component-config v)))
+     (assoc m k (build-initializable-component v)))
    {}
    system-config))
 

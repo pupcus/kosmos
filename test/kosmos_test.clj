@@ -16,8 +16,8 @@
 
 
 (defn init-component-three [config]
-  (let [component (map->TestComponent config)]
-    (assoc component :initialized true)))
+  {:status :started
+   :initialized true})
 
 
 (def test-config
@@ -25,10 +25,10 @@
            :status :not-started}
    :two   {:kosmos/init :kosmos-test/TestComponent
            :status :not-started}
-   :three {:kosmos/init kosmos-test/init-component-three
-           :status :not-started}})
+   :three {:kosmos/init kosmos-test/init-component-three}})
 
 (deftest test-initialize
+  (remove-method clojure.core/print-method com.stuartsierra.component.SystemMap)
   (is (= (component/map->SystemMap {:component {:option1 :one}})
          (map->system {:component {:option1 :one}}))))
 
@@ -56,4 +56,4 @@
     (is c3)
     (is (= :stopped (:status c1)))
     (is (= :stopped (:status c2)))
-    (is (= :stopped (:status c3)))))
+    (is (= :started (:status c3)))))
