@@ -11,7 +11,7 @@
 
   :dependencies [[org.clojure/tools.reader "0.10.0"]
                  [org.clojure/tools.logging "0.3.1"]
-                 [com.stuartsierra/component "0.3.1"]]
+                 [com.stuartsierra/component "0.3.2"]]
 
   :profiles {:dev  {:resource-paths ["dev-resources"]
                     :dependencies [[org.clojure/clojure "1.8.0"]
