@@ -2,9 +2,9 @@
 
   :description "create an ordered system of components"
 
-  :url "https://bitbucket.org/pupcus/kosmos"
+  :url "https://github.com/pupcus/kosmos"
 
-  :scm {:url "git@bitbucket.org:pupcus/kosmos"}
+  :scm {:url "git@github.com:pupcus/kosmos.git"}
 
   :license {:name "Eclipse Public License"
             :url "http://www.eclipse.org/legal/epl-v10.html"}
