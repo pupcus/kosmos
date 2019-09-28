@@ -1,4 +1,4 @@
-(defproject kosmos "0.0.8"
+(defproject kosmos "0.0.9-SNAPSHOT"
 
   :description "create an ordered system of components"
 
@@ -9,12 +9,11 @@
   :license {:name "Eclipse Public License"
             :url "http://www.eclipse.org/legal/epl-v10.html"}
 
-  :dependencies [[org.clojure/tools.reader "1.0.5"]
-                 [org.clojure/tools.logging "0.4.0"]
-                 [com.stuartsierra/component "0.3.2"]]
+  :dependencies [[org.clojure/tools.logging "0.5.0"]
+                 [com.stuartsierra/component "0.4.0"]]
 
   :profiles {:dev  {:resource-paths ["dev-resources"]
-                    :dependencies [[org.clojure/clojure "1.8.0"]
+                    :dependencies [[org.clojure/clojure "1.10.1"]
                                    [org.slf4j/slf4j-log4j12 "1.7.25"]]}}
 
   :deploy-repositories [["snapshots"
