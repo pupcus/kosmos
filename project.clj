@@ -16,14 +16,9 @@
                     :dependencies [[org.clojure/clojure "1.10.1"]
                                    [org.slf4j/slf4j-log4j12 "1.7.25"]]}}
 
-  :deploy-repositories [["snapshots"
-                         {:url "https://clojars.org/repo"
-                          :sign-releases false
-                          :creds :gpg}]
-                        ["releases"
-                         {:url "https://clojars.org/repo"
-                          :sign-releases false
-                          :creds :gpg}]]
+  :deploy-repositories {"releases" {:url "https://repo.clojars.org" :creds :gpg :sign-releases false}
+                        "snapshots" {:url "https://repo.clojars.org" :creds :gpg :sign-releases false}}
+
 
   :release-tasks [["vcs" "assert-committed"]
                   ["change" "version" "leiningen.release/bump-version" "release"]
