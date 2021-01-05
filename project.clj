@@ -9,6 +9,8 @@
   :license {:name "Eclipse Public License"
             :url "http://www.eclipse.org/legal/epl-v10.html"}
 
+  :signing {:gpg-key "FCA46A30FEEE7E10"}
+
   :dependencies [[org.clojure/tools.logging "1.1.0"]
                  [com.stuartsierra/component "1.0.0"]]
 
