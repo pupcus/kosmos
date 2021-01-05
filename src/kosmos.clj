@@ -3,7 +3,7 @@
             [com.stuartsierra.component :as component]
             [kosmos.util :as u]))
 
-(def system)
+(def ^:dynamic system)
 
 (defn map->system [system-config]
   (u/map->system system-config))

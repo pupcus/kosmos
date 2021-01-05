@@ -9,8 +9,8 @@
   :license {:name "Eclipse Public License"
             :url "http://www.eclipse.org/legal/epl-v10.html"}
 
-  :dependencies [[org.clojure/tools.logging "0.6.0"]
-                 [com.stuartsierra/component "0.4.0"]]
+  :dependencies [[org.clojure/tools.logging "1.1.0"]
+                 [com.stuartsierra/component "1.0.0"]]
 
   :profiles {:dev  {:resource-paths ["dev-resources"]
                     :dependencies [[org.clojure/clojure "1.10.1"]
