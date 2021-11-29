@@ -15,8 +15,8 @@
                  [com.stuartsierra/component "1.0.0"]]
 
   :profiles {:dev  {:resource-paths ["dev-resources"]
-                    :dependencies [[org.clojure/clojure "1.10.1"]
-                                   [org.slf4j/slf4j-log4j12 "1.7.30"]]}}
+                    :dependencies [[org.clojure/clojure "1.10.3"]
+                                   [org.slf4j/slf4j-log4j12 "1.7.32"]]}}
 
   :deploy-repositories {"releases" {:url "https://clojars.org/repo" :creds :gpg :sign-releases false}
                         "snapshots" {:url "https://clojars.org/repo" :creds :gpg :sign-releases false}}
