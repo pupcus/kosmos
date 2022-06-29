@@ -11,7 +11,7 @@ CLOJURE := clojure
 #
 # Targets
 #
-.PHONY: clean dev attach test tag
+.PHONY: clean dev attach test tag version
 
 #
 # run lein for dev repl
@@ -20,7 +20,7 @@ nrepl:
 	@${CLOJURE} -Mnrepl
 
 test:
-	@${CLOJURE} -Mtest
+	@${CLOJURE} -Mdev:test
 
 attach: PORT=$(shell cat .nrepl-port)
 attach:
@@ -29,6 +29,9 @@ attach:
 clean:
 	@rm -rf .cpcache/ target/
 
-tag:	VERSION := $(shell next-version .version)
+version:
+	@next-version --file .version
+
+tag: VERSION:=$(shell cat .version)
 tag:
 	git tag -a ${VERSION} -m "release/tag version v${VERSION}"
