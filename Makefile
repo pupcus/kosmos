@@ -13,21 +13,25 @@ CLOJURE := clojure
 #
 .PHONY: clean dev attach test tag version
 
-#
-# run lein for dev repl
-#
-nrepl:
-	@${CLOJURE} -Mnrepl
+clean:
+	@rm -rf .cpcache/ target/
 
-test:
-	@${CLOJURE} -Mdev:test
+deps:
+	@${CLOJURE} -X:deps prep
+
+#
+# put your local overrides for this project under an alias in
+#   ~/.clojure/deps.edn called overrides
+#
+dev:	deps
+	@${CLOJURE} -M:dev:overrides
+
+test:	deps
+	@${CLOJURE} -M:test
 
 attach: PORT=$(shell cat .nrepl-port)
 attach:
 	@${CLOJURE} -Mattach --attach localhost:${PORT}
-
-clean:
-	@rm -rf .cpcache/ target/
 
 version:
 	@next-version --file .version

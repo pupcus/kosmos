@@ -10,8 +10,17 @@
  :aliases
  {
   :dev {:extra-paths ["test" "dev-resources"]
-        :extra-deps {
-                     org.clojure/clojure {:mvn/version "1.12.1"}
-                     org.slf4j/slf4j-simple {:mvn/version "2.0.17"}}}
+        :extra-deps {cider/cider-nrepl             {:mvn/version "0.57.0"}
+                     org.clojure/clojure           {:mvn/version "1.12.1"}
+                     refactor-nrepl/refactor-nrepl {:mvn/version "3.11.0"}
+                     org.slf4j/slf4j-simple {:mvn/version "2.0.17"}}
+        :main-opts ["-m" "nrepl.cmdline"
+                    "--middleware" "[refactor-nrepl.middleware/wrap-refactor,cider.nrepl/cider-middleware]"]}
+
+  :test {:extra-paths ["test"]
+         :extra-deps {lambdaisland/kaocha {:mvn/version "1.91.1392"}
+                      org.slf4j/slf4j-simple {:mvn/version "2.0.17"}}
+         :jvm-opts ["-XX:-OmitStackTraceInFastThrow"]
+         :main-opts [ "-m" "kaocha.runner"]}
   }
  }
