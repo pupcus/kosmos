@@ -14,7 +14,7 @@ CLOJURE := clojure
 .PHONY: clean dev attach test tag version
 
 clean:
-	@rm -rf .cpcache/ target/
+	@rm -rf .cpcache/ target/ pom* .lein*
 
 deps:
 	@${CLOJURE} -X:deps prep
