@@ -41,4 +41,7 @@ tag:
 	git tag -a ${VERSION} -m "release/tag version v${VERSION}"
 
 build: clean deps
-	@${CLOJURE} -T:build build/jar
+	@${CLOJURE} -T:build:deploy build/jar
+
+deploy: build
+	@${CLOJURE} -T:build:deploy build/deploy
